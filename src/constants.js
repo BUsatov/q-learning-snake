@@ -10,7 +10,14 @@ export const DOWN_DIR = { x: 0, y: 1 };
 export const LEFT_DIR = { x: -1, y: 0 };
 export const RIGHT_DIR = { x: 1, y: 0 };
 
-export const GAME_WIDTH = 10;
-export const  GAME_HEIGHT = 10;
-export const FPS = 2;
-export const SCALE = 50;
+export const GAME_WIDTH = 6;
+export const GAME_HEIGHT = 6;
+export const FPS = 5;
+export const SCALE = 80;
+
+export const BRAIN_ACTIONS_MAPPING = {
+  '0': UP,
+  '1': RIGHT,
+  '2': DOWN,
+  '3': LEFT
+}

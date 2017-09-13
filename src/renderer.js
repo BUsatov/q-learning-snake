@@ -44,12 +44,12 @@ function createSnakePartDrawer(ctx) {
 
 export function draw(state: State) {
   const ctx = canvas.getContext();
-  ctx.fillStyle = "black";
+  ctx.fillStyle = "#212121";
   ctx.fillRect(0, 0, state.game.width * SCALE, state.game.height * SCALE);
-  ctx.fillStyle = "white";
+  ctx.fillStyle = "#26A69A";
   createSnakePartDrawer(ctx, SCALE)(state.snake.position);
   state.snake.tail.forEach(createSnakePartDrawer(ctx));
-  ctx.fillStyle = "red";
+  ctx.fillStyle = "#F44336";
   ctx.fillRect(
     scaledPosition(state.food.x),
     scaledPosition(state.food.y),
