@@ -1,6 +1,6 @@
 // @flow
 
-import { setup as snakeSetup } from "./snake";
+import { setup as snakeSetup, snakeTouchesFood } from "./snake";
 import type { State, Position, Snake, Food } from "./types";
 
 function positionOnSnake(snake: Snake, position: Position): boolean {
@@ -33,10 +33,6 @@ function randomPositionFood(
   return { x, y };
 }
 
-function snakeTouchesFood(snake: Snake, food: Food): boolean {
-  return snake.position.x === food.x && snake.position.y === food.y;
-}
-
 export function update(state: State): State {
   if (snakeTouchesFood(state.snake, state.food)) {
     return {
@@ -49,9 +45,8 @@ export function update(state: State): State {
 }
 
 export function setup(
-  currentState: State,
   width: number,
   height: number
 ): Food {
-  return randomPositionFood(currentState.snake, width, height);
+  return randomPositionFood(undefined, width, height);
 }

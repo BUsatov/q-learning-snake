@@ -1,15 +1,25 @@
 // @flow
-import type { State, Position, Direction, Snake } from "./types";
+import type { State, Position, Direction, Snake, Food } from "./types";
 import { UP_DIR, DOWN_DIR, LEFT_DIR, RIGHT_DIR } from "./constants";
 
-function isSamePosition(a, b) {}
-function snakeTouchesFood(a, b) {}
+function isSamePosition(a, b) {
+  return a.x === b.x && a.y === b.y;
+}
+export function snakeTouchesFood(snake: Snake, food: Food): boolean {
+  return snake.position.x === food.x && snake.position.y === food.y;
+}
 
-function updatePosition(dir: Direction, currentPosition: Position): Position {
-  return {
+function updatePosition(dir: Direction, currentPosition: Position, game: { height: number, width: number }): Position {
+  const nextPosition = {
     x: currentPosition.x + dir.x,
     y: currentPosition.y + dir.y
-  };
+  }
+  if (nextPosition.x < 0) nextPosition.x = game.width - 1;
+  if (nextPosition.x >= game.width) nextPosition.x = 0;
+  if (nextPosition.y < 0) nextPosition.y = game.height - 1;
+  if (nextPosition.y >= game.height) nextPosition.y = 0;
+
+  return nextPosition
 }
 
 function collidesWithTail(position, tail): boolean {
@@ -45,16 +55,11 @@ export function update(state: State): State {
   const nextState: Snake = {
     ...state.snake,
     dir: updateDirection(state),
-    position: updatePosition(state.snake.dir, state.snake.position)
+    position: updatePosition(state.snake.dir, state.snake.position, state.game)
   };
 
   // check if collides with walls or tail
-  if (
-    nextState.position.x < 0 ||
-    nextState.position.x >= state.game.width ||
-    (nextState.position.y < 0 || nextState.position.y >= state.game.height) ||
-    collidesWithTail(nextState.position, state.snake.tail)
-  ) {
+  if (collidesWithTail(nextState.position, state.snake.tail)) {
     nextState.dead = true;
   }
 

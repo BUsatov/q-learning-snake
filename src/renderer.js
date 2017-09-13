@@ -27,17 +27,17 @@ function initialize(width = 600, height = 600) {
 
 const canvas = initialize();
 
-function scaledPosition(pos, scale) {
-  return pos * scale;
+function scaledPosition(pos) {
+  return pos * SCALE;
 }
 
-function createSnakePartDrawer(ctx, scale) {
+function createSnakePartDrawer(ctx) {
   return position => {
     ctx.fillRect(
-      scaledPosition(position.x, scale),
-      scaledPosition(position.y, scale),
-      scale,
-      scale
+      scaledPosition(position.x),
+      scaledPosition(position.y),
+      SCALE,
+      SCALE
     );
   };
 }
@@ -48,11 +48,11 @@ export function draw(state: State) {
   ctx.fillRect(0, 0, state.game.width * SCALE, state.game.height * SCALE);
   ctx.fillStyle = "white";
   createSnakePartDrawer(ctx, SCALE)(state.snake.position);
-  state.snake.tail.forEach(createSnakePartDrawer(ctx, state.game.scale));
+  state.snake.tail.forEach(createSnakePartDrawer(ctx));
   ctx.fillStyle = "red";
   ctx.fillRect(
-    scaledPosition(state.food.x, state.game.scale),
-    scaledPosition(state.food.y, state.game.scale),
+    scaledPosition(state.food.x),
+    scaledPosition(state.food.y),
     SCALE,
     SCALE
   );

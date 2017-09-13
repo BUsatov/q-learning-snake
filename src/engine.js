@@ -9,24 +9,25 @@ import { draw } from "./renderer";
 
 const update = _.flow(updateSnake, updateFood);
 
-const initialState = {
+const initialState = () => ({
   snake: setupSnake,
-  food: setupFood({}, GAME_WIDTH, GAME_HEIGHT),
+  food: setupFood(GAME_WIDTH, GAME_HEIGHT),
   input: "right",
   game: {
     height: GAME_HEIGHT,
     width: GAME_WIDTH
   }
-};
+});
 
 function tick(prevState: State) {
-  const nextState = prevState.snake.dead ? initialState : update(prevState);
-  draw(nextState);
+  const nextState = update(prevState);
+  const state = nextState.snake.dead ? initialState() : nextState;
+  draw(state);
   setTimeout(() => {
-    window.requestAnimationFrame(() => tick(nextState));
+    window.requestAnimationFrame(() => tick(state));
   }, 1000 / FPS);
 }
 
 export function start() {
-  tick(initialState);
+  tick(initialState());
 }
