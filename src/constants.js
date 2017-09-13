@@ -16,8 +16,8 @@ export const FPS = 5;
 export const SCALE = 80;
 
 export const BRAIN_ACTIONS_MAPPING = {
-  '0': UP,
-  '1': RIGHT,
-  '2': DOWN,
-  '3': LEFT
-}
+  "0": UP,
+  "1": RIGHT,
+  "2": DOWN,
+  "3": LEFT
+};

@@ -44,9 +44,6 @@ export function update(state: State): State {
   return state;
 }
 
-export function setup(
-  width: number,
-  height: number
-): Food {
+export function setup(width: number, height: number): Food {
   return randomPositionFood(undefined, width, height);
 }

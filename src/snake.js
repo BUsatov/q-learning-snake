@@ -9,17 +9,21 @@ export function snakeTouchesFood(snake: Snake, food: Food): boolean {
   return snake.position.x === food.x && snake.position.y === food.y;
 }
 
-function updatePosition(dir: Direction, currentPosition: Position, game: { height: number, width: number }): Position {
+function updatePosition(
+  dir: Direction,
+  currentPosition: Position,
+  game: { height: number, width: number }
+): Position {
   const nextPosition = {
     x: currentPosition.x + dir.x,
     y: currentPosition.y + dir.y
-  }
+  };
   if (nextPosition.x < 0) nextPosition.x = game.width - 1;
   if (nextPosition.x >= game.width) nextPosition.x = 0;
   if (nextPosition.y < 0) nextPosition.y = game.height - 1;
   if (nextPosition.y >= game.height) nextPosition.y = 0;
 
-  return nextPosition
+  return nextPosition;
 }
 
 function collidesWithTail(position, tail): boolean {

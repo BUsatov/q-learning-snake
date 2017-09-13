@@ -49,6 +49,13 @@ export function draw(state: State) {
   ctx.fillStyle = "#26A69A";
   createSnakePartDrawer(ctx, SCALE)(state.snake.position);
   state.snake.tail.forEach(createSnakePartDrawer(ctx));
+  ctx.fillStyle = "#00897B";
+  ctx.fillRect(
+    scaledPosition(state.snake.position.x),
+    scaledPosition(state.snake.position.y),
+    SCALE,
+    SCALE
+  );
   ctx.fillStyle = "#F44336";
   ctx.fillRect(
     scaledPosition(state.food.x),
