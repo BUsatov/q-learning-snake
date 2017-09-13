@@ -1,5 +1,5 @@
 {
-  "extends": ["prettier", "prettier/flowtype"],
+  "extends": ["prettier", "prettier/flowtype", "plugin:flowtype/recommended"],
   "plugins": ["flowtype", "prettier"],
   "parserOptions": {
     "ecmaVersion": 2016,
@@ -10,7 +10,11 @@
     "node": true
   },
   "rules": {
-    "prettier/prettier": "error",
-    "quotes": ["error", "single"]
+    "prettier/prettier": "error"
+  },
+  "settings": {
+    "flowtype": {
+      "onlyFilesWithFlowAnnotation": true
+    }
   }
 }

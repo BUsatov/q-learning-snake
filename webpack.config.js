@@ -1,18 +1,19 @@
 module.exports = {
-  entry: './src/index.js',
+  entry: "./src/index.js",
   output: {
-    filename: 'bundle.js',
+    filename: "bundle.js"
   },
   module: {
     loaders: [
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'babel-loader',
+        loader: "babel-loader",
         query: {
-          presets: ['es2015'],
-        },
-      },
-    ],
-  },
+          presets: ["stage-3"],
+          plugins: ["transform-flow-strip-types"]
+        }
+      }
+    ]
+  }
 };

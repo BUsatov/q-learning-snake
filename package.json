@@ -6,16 +6,29 @@
   "repository": "https://github.com/BUsatov/q-learning-snake",
   "author": "busatov",
   "license": "MIT",
-  "dependencies": {},
+  "dependencies": {
+    "lodash": "^4.17.4"
+  },
   "devDependencies": {
     "babel": "^6.23.0",
+    "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
+    "babel-eslint": "^7.2.3",
     "babel-loader": "^7.1.2",
-    "babel-preset-es2015": "^6.24.1",
+    "babel-plugin-transform-flow-strip-types": "^6.22.0",
+    "babel-preset-flow": "^6.23.0",
+    "babel-preset-stage-3": "^6.24.1",
     "eslint-config-prettier": "^2.4.0",
+    "eslint-plugin-flowtype": "^2.35.1",
     "eslint-plugin-prettier": "^2.2.0",
+    "flow-bin": "^0.54.1",
     "prettier": "^1.6.1",
     "webpack": "^3.5.6",
     "webpack-dev-server": "^2.7.1"
+  },
+  "scripts": {
+    "build": "webpack",
+    "postbuild": "cp index.html ./dist/index.html",
+    "start": "webpack-dev-server --port 8070"
   }
 }
