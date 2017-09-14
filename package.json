@@ -7,6 +7,7 @@
   "author": "busatov",
   "license": "MIT",
   "dependencies": {
+    "chart.js": "^2.7.0",
     "lodash": "^4.17.4"
   },
   "devDependencies": {

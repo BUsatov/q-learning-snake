@@ -87,9 +87,9 @@ export function update(state: State): State {
 export const setup: Snake = {
   dead: false,
   position: {
-    x: 1,
+    x: 2,
     y: 1
   },
-  tail: [{ x: 0, y: 1 }],
+  tail: [{ x: 0, y: 1 }, { x: 1, y: 1 }],
   dir: RIGHT_DIR
 };

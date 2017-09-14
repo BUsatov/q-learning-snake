@@ -16,11 +16,93 @@
     a {
       color: #fff;
     }
+    .actions {
+      display: flex;
+      justify-content: space-between;
+      max-width: 500px;
+      text-align: center;
+      margin: 10px auto;
+    }
+    .button {
+      transition: .3s ease-out;
+      color: #fff;
+      background-color: #26a69a;
+      letter-spacing: .5px;
+      border: none;
+      border-radius: 2px;
+      height: 36px;
+      line-height: 36px;
+      padding: 0 2rem;
+      text-transform: uppercase;
+      cursor: pointer;
+    }
+    .button:hover {
+      background-color: #2bbbad
+    }
+    .button:active, .button:hover, .button:focus {
+      outline: 0;
+    }
+    .custom-file-input {
+      color: transparent;
+    }
+    .custom-file-input::-webkit-file-upload-button {
+      visibility: hidden;
+    }
+    .custom-file-input::before {
+      content: 'Upload Your Net';
+      transition: .3s ease-out;
+      color: #fff;
+      background-color: #26a69a;
+      letter-spacing: .5px;
+      border: none;
+      border-radius: 2px;
+      height: 36px;
+      line-height: 36px;
+      padding: 0 2rem;
+      text-transform: uppercase;
+      cursor: pointer;
+      display: block;
+      text-align: center;
+    }
+    .custom-file-input:hover::before {
+      background-color: #2bbbad
+    }
+    .custom-file-input:active {
+      outline: 0;
+    }
+    .scenes {
+      display: flex;
+      justify-content: space-around;
+    }
+    .sliders {
+      max-width: 500px;
+      margin: 0 auto;
+    }
   </style>
+  <link href="lib/jquery-ui.min.css" rel="stylesheet">
+  <link href="lib/jquery-ui.structure.min.css" rel="stylesheet">
+  <link href="lib/jquery-ui.theme.min.css" rel="stylesheet">
 </head>
 <body>
 <h1>Q Learning Snake</h1>
+<div class="scenes">
+  <canvas id="canvas" width="500" height="500"></canvas>
+  <div style="width: 500px;">
+    <canvas id="myChart" width="500" height="500"></canvas>
+  </div>
+</div>
+<div class="actions">
+  <input class="custom-file-input" id="uploadBrain" type="file" />
+  <button class="button" id="saveBrain">Save</button>
+  <button class="button" id="fastLearn">Fast Learn</button>
+</div>
+<div class="sliders">
+  Exploration epsilon: <span id="eps">0.15</span> <div id="slider-eps"></div>
+  Learning rate: <span id="alpha">0.005</span> <div id="slider-alpha"></div>
+</div>
 <script src="lib/rl.js"></script>
+<script src="lib/jquery-3.2.1.min.js"></script>
+<script src="lib/jquery-ui.min.js"></script>
 <script src="bundle.js"></script>
 </body>
 </html>

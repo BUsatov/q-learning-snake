@@ -1,37 +1,73 @@
 import { SCALE } from "./constants";
-import type { State } from "./types";
+import type { State, Position } from "./types";
+import Chart from "chart.js";
 
-function createCanvasElement(width = 600, height = 600) {
-  const element = document.createElement("canvas");
+// Init
+var config = {
+  type: "line",
+  data: {
+    labels: new Array(20).fill(0).map((_, index) => "" + index * 100),
+    datasets: [
+      {
+        label: "Reward",
+        backgroundColor: "#26A69A",
+        borderColor: "#26A69A",
+        data: new Array(20).fill(0),
+        fill: false
+      }
+    ]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "Reward Chart"
+    },
+    tooltips: {
+      mode: "index",
+      intersect: false
+    },
+    hover: {
+      mode: "nearest",
+      intersect: true
+    },
+    scales: {
+      xAxes: [
+        {
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: "Ticks"
+          }
+        }
+      ],
+      yAxes: [
+        {
+          display: true,
+          scaleLabel: {
+            display: true,
+            labelString: "Reward"
+          },
+          ticks: {
+            // min: 0,
+            // max: 100,
+            // forces step size to be 5 units
+            // stepSize: 10
+          }
+        }
+      ]
+    }
+  }
+};
 
-  element.setAttribute("width", width);
-  element.setAttribute("height", height);
+const gameCtx = document.getElementById("canvas").getContext("2d");
+const chartCtx = document.getElementById("myChart").getContext("2d");
+const chart = new Chart(chartCtx, config);
 
-  document.body.appendChild(element);
-
-  return element.getContext("2d");
-}
-
-function getContext() {
-  return this.context;
-}
-
-function initialize(width = 600, height = 600) {
-  const instance = {
-    context: createCanvasElement(width, height),
-    getContext
-  };
-
-  return instance;
-}
-
-const canvas = initialize();
-
-function scaledPosition(pos) {
+function scaledPosition(pos: number): number {
   return pos * SCALE;
 }
 
-function createSnakePartDrawer(ctx) {
+function createSnakePartDrawer(ctx): (position: Position) => void {
   return position => {
     ctx.fillRect(
       scaledPosition(position.x),
@@ -43,24 +79,31 @@ function createSnakePartDrawer(ctx) {
 }
 
 export function draw(state: State) {
-  const ctx = canvas.getContext();
-  ctx.fillStyle = "#212121";
-  ctx.fillRect(0, 0, state.game.width * SCALE, state.game.height * SCALE);
-  ctx.fillStyle = "#26A69A";
-  createSnakePartDrawer(ctx, SCALE)(state.snake.position);
-  state.snake.tail.forEach(createSnakePartDrawer(ctx));
-  ctx.fillStyle = "#00897B";
-  ctx.fillRect(
+  gameCtx.fillStyle = "#212121";
+  gameCtx.fillRect(0, 0, state.game.width * SCALE, state.game.height * SCALE);
+  gameCtx.fillStyle = "#26A69A";
+  createSnakePartDrawer(gameCtx, SCALE)(state.snake.position);
+  state.snake.tail.forEach(createSnakePartDrawer(gameCtx));
+  gameCtx.fillStyle = "#00897B";
+  gameCtx.fillRect(
     scaledPosition(state.snake.position.x),
     scaledPosition(state.snake.position.y),
     SCALE,
     SCALE
   );
-  ctx.fillStyle = "#F44336";
-  ctx.fillRect(
+  gameCtx.fillStyle = "#F44336";
+  gameCtx.fillRect(
     scaledPosition(state.food.x),
     scaledPosition(state.food.y),
     SCALE,
     SCALE
   );
+  const prevRew = config.data.datasets[0].data[0];
+  if (state.tick % 100 === 0) {
+    config.data.datasets[0].data.unshift(state.reward);
+    config.data.datasets[0].data.splice(-1);
+    chart.update();
+  }
 }
+
+// CHARTS

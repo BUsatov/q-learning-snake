@@ -6,7 +6,9 @@ export type State = {
     height: number,
     width: number
   },
-  food: Position
+  food: Position,
+  tick: number,
+  reward: number
 };
 
 export type Snake = {

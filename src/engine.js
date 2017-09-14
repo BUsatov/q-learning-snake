@@ -11,11 +11,24 @@ import type { State } from "./types";
 import { update as updateSnake, setup as setupSnake } from "./snake";
 import { update as updateFood, setup as setupFood } from "./food";
 import { draw } from "./renderer";
-import { getAction } from "./brain";
+import { getAction, learn } from "./brain";
 
-const update = _.flow(updateSnake, updateFood);
+const updateTick = (state: State) => ({
+  ...state,
+  tick: (state.tick || 0) + 1
+});
+const updateReward = (reward: number, state: State) => ({
+  ...state,
+  reward: (state.reward || 0) + reward
+});
+const update = _.flow(updateSnake, updateFood, updateTick);
 
-const initialState = () => ({
+export const params = {
+  fastLearn: false
+};
+
+const initialState = (fields: { reward?: number, tick?: number }): State => ({
+  ...fields,
   snake: setupSnake,
   food: setupFood(GAME_WIDTH, GAME_HEIGHT),
   input: "right",
@@ -28,13 +41,22 @@ const initialState = () => ({
 function tick(prevState: State) {
   const nextState = update(prevState);
   nextState.input = BRAIN_ACTIONS_MAPPING[getAction(nextState)];
-  const state = nextState.snake.dead ? initialState() : nextState;
+  const reward = learn(prevState, nextState);
+  const state = nextState.snake.dead
+    ? initialState({ reward: nextState.reward + reward, tick: nextState.tick })
+    : updateReward(reward, nextState);
   draw(state);
-  setTimeout(() => {
-    window.requestAnimationFrame(() => tick(state));
-  }, 1000 / FPS);
+  if (params.fastLearn) {
+    setTimeout(() => {
+      tick(state);
+    });
+  } else {
+    setTimeout(() => {
+      window.requestAnimationFrame(() => tick(state));
+    }, 1000 / FPS);
+  }
 }
 
 export function start() {
-  tick(initialState());
+  tick(initialState({}));
 }
