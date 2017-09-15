@@ -21,7 +21,7 @@ function onUploadBrain(event) {
 }
 
 function onSaveBrain() {
-  download(agent.toJSON(), "snake-brains.json", "text/plain");
+  download(JSON.stringify(agent.toJSON()), "snake-brains.json", "text/plain");
 }
 
 function onFastLearn() {
