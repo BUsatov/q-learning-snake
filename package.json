@@ -30,6 +30,6 @@
   "scripts": {
     "build": "webpack",
     "postbuild": "cp index.html ./dist/index.html",
-    "start": "webpack-dev-server --port 8070"
+    "start": "webpack-dev-server --port 8060"
   }
 }

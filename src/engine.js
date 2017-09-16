@@ -39,8 +39,8 @@ const initialState = (fields: { reward?: number, tick?: number }): State => ({
 });
 
 function tick(prevState: State) {
-  const nextState = update(prevState);
-  nextState.input = BRAIN_ACTIONS_MAPPING[getAction(nextState)];
+  const input = BRAIN_ACTIONS_MAPPING[getAction(prevState)];
+  const nextState = update({ ...prevState, input });
   const reward = learn(prevState, nextState);
   const state = nextState.snake.dead
     ? initialState({ reward: nextState.reward + reward, tick: nextState.tick })

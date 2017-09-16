@@ -11,8 +11,8 @@ spec.alpha = 0.01; // value function learning rate
 // spec.learning_steps_per_iteration = 1;
 // spec.tderror_clamp = 1.0; // for robustness
 // spec.num_hidden_units = 50 // number of neurons in hidden layer
-const FOOD_REWARD: number = 20;
-const DEATH_REWARD: number = -20;
+const FOOD_REWARD: number = 5;
+const DEATH_REWARD: number = -10;
 const SILENCE_REWARD: number = -1;
 
 function getNumStates(): number {
