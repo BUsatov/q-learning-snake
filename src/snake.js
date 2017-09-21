@@ -5,8 +5,8 @@ import { UP_DIR, DOWN_DIR, LEFT_DIR, RIGHT_DIR } from "./constants";
 function isSamePosition(a, b) {
   return a.x === b.x && a.y === b.y;
 }
-export function snakeTouchesFood(snake: Snake, food: Food): boolean {
-  return snake.position.x === food.x && snake.position.y === food.y;
+export function snakeTouchesFood(position: Position, food: Food): boolean {
+  return position.x === food.x && position.y === food.y;
 }
 
 function updatePosition(
@@ -26,7 +26,7 @@ function updatePosition(
   return nextPosition;
 }
 
-function collidesWithTail(position, tail): boolean {
+function collidesWithTail(position: Position, tail): boolean {
   return (
     tail.filter(tailPosition => isSamePosition(position, tailPosition)).length >
     0
@@ -56,31 +56,21 @@ function updateDirection(state: State): Direction {
 }
 
 export function update(state: State): State {
-  const nextState: Snake = {
-    ...state.snake,
-    dir: updateDirection(state),
-    position: updatePosition(state.snake.dir, state.snake.position, state.game)
-  };
-
-  // check if collides with walls or tail
-  if (collidesWithTail(nextState.position, state.snake.tail)) {
-    nextState.dead = true;
-  }
-
-  if (!nextState.dead) {
-    // grow a tail
-    if (snakeTouchesFood(nextState, state.food)) {
-      nextState.tail = state.snake.tail.concat(state.snake.position);
-    } else if (state.snake.tail.length > 0) {
-      nextState.tail = state.snake.tail
-        .slice(1, state.snake.tail.length)
-        .concat(state.snake.position);
-    }
-  }
-
+  const dir = updateDirection(state);
+  const position = updatePosition(dir, state.snake.position, state.game);
   return {
     ...state,
-    snake: nextState
+    snake: {
+      ...state.snake,
+      dir,
+      position,
+      dead: collidesWithTail(position, state.snake.tail),
+      tail: snakeTouchesFood(position, state.food)
+        ? state.snake.tail.concat(state.snake.position)
+        : state.snake.tail
+            .slice(1, state.snake.tail.length)
+            .concat(state.snake.position)
+    }
   };
 }
 

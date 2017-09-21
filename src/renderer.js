@@ -78,7 +78,7 @@ function createSnakePartDrawer(ctx): (position: Position) => void {
   };
 }
 
-export function draw(state: State) {
+export function drawGame(state: State, updateChart: bool) {
   gameCtx.fillStyle = "#212121";
   gameCtx.fillRect(0, 0, state.game.width * SCALE, state.game.height * SCALE);
   gameCtx.fillStyle = "#26A69A";
@@ -98,9 +98,11 @@ export function draw(state: State) {
     SCALE,
     SCALE
   );
+}
+export function drawChart(reward: number, updateChart: bool) {
   const prevRew = config.data.datasets[0].data[0];
-  if (state.tick % 100 === 0) {
-    config.data.datasets[0].data.unshift(state.reward);
+  if (updateChart) {
+    config.data.datasets[0].data.unshift(reward);
     config.data.datasets[0].data.splice(-1);
     chart.update();
   }

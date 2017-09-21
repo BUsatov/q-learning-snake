@@ -34,7 +34,7 @@ function randomPositionFood(
 }
 
 export function update(state: State): State {
-  if (snakeTouchesFood(state.snake, state.food)) {
+  if (snakeTouchesFood(state.snake.position, state.food)) {
     return {
       ...state,
       food: randomPositionFood(state.snake, state.game.width, state.game.height)
