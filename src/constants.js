@@ -12,7 +12,7 @@ export const RIGHT_DIR = { x: 1, y: 0 };
 
 export const GAME_WIDTH = 5;
 export const GAME_HEIGHT = 5;
-export const FPS = 5;
+export const FPS = 2;
 export const SCALE = 90;
 
 export const BRAIN_ACTIONS_MAPPING = {
